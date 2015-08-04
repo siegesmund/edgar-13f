@@ -1,7 +1,16 @@
 if (Meteor.isServer) {
   var url = "http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=13F&company=&dateb=&owner=include&start=0&count=100&output=atom";
 
-  var ThirteenF = {};
+  var Logger;
+
+  if (Edgar && Edgar.log) {
+      Logger = Edgar;
+  } else {
+      Logger = console;
+  }
+
+  // This is package global
+  ThirteenF = {};
 
   ThirteenF.getXMLLinks = function(p){
     var linkPage = HTTP.get(p.link).content;
@@ -57,7 +66,7 @@ if (Meteor.isServer) {
       }
     });
     var message = "ThirteenF update completed. " + newFilings + " new filings added. " + preExistingFilings + " filings were already in the index and were ignored.";
-    Edgar.log("info", message);
+    Logger.log("info", message);
   }
 
   ThirteenF.parseDocument = function(url) {
@@ -68,6 +77,9 @@ if (Meteor.isServer) {
 
   // Saves document to CLOUDANT
   ThirteenF.parseAndSave = function() {
+
+    // Test for existence of CLOUDANT_URL
+
     var db = new(cradle.Connection)(process.env.CLOUDANT_URL, 443, {secure:true}).database('data-us-thirteenf-filings');
     var unprocessed = ThirteenFIndex.find({processed:false, jsonData:false});
     unprocessed.forEach(function(filing){
@@ -92,7 +104,7 @@ if (Meteor.isServer) {
       if (!response.error){
         ThirteenFIndex.update(filing, {$set:{processed:true, jsonData:true}});
       } else {
-        Edgar.log('error', response.error);
+        Logger.log('error', response.error);
       }
     })
   }

@@ -11,6 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
+
   api.versionsFrom('1.1.0.3');
   api.use(['grigio:babel',
             'percolate:synced-cron',
@@ -21,12 +22,10 @@ Package.onUse(function(api) {
             'peerlibrary:xml2js',
             'peter:cradle',]);
 
-  api.addFiles(['thirteenf.es6.js', 'db.es6.js', 'cron.es6.js'], 'server');
-  api.export('ThirteenFIndex');
-});
+  api.addFiles(['thirteenf.es6.js',
+                'db.es6.js',
+                'cron.es6.js'], 'server');
 
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('peter:edgar-13f');
-  api.addFiles('edgar-13f-tests.js');
+  api.export('ThirteenFIndex');
+
 });
