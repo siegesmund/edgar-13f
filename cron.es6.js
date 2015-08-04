@@ -5,8 +5,8 @@ if (Meteor.isServer) {
       return parser.recur().every(5).minute().onWeekday();
     },
     job: function() {
-      Edgar.ThirteenF.update();
-      Edgar.ThirteenF.parseAndSave();
+      ThirteenF.update();
+      ThirteenF.parseAndSave();
     }
   });
 }

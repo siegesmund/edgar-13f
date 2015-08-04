@@ -13,14 +13,14 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
   api.use(['grigio:babel',
-          'percolate:synced-cron',
-          'aldeed:simple-schema',
-          'aldeed:collection2',
-          'peter:rss',
-          'mrt:cheerio',
-          'peerlibrary:xml2js',
-          'peter:cradle',]);
-          
+            'percolate:synced-cron',
+            'aldeed:simple-schema',
+            'aldeed:collection2',
+            'peter:rss',
+            'mrt:cheerio',
+            'peerlibrary:xml2js',
+            'peter:cradle',]);
+
   api.addFiles(['thirteenf.es6.js', 'db.es6.js', 'cron.es6.js'], 'server');
   api.export('ThirteenFIndex');
 });

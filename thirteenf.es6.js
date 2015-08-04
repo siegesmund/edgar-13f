@@ -97,6 +97,8 @@ if (Meteor.isServer) {
     })
   }
 
-  Edgar.ThirteenF = ThirteenF;
+  if(Edgar) {
+    Edgar.ThirteenF = ThirteenF;
+  }
 
 }
