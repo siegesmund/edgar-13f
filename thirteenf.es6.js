@@ -70,9 +70,13 @@ if (Meteor.isServer) {
   }
 
   ThirteenF.parseDocument = function(url) {
-    var text = HTTP.get(url).content;
-    var data = xml2js.parseStringSync(text, {tagNameProcessors: [xml2js.processors.stripPrefix]});
-    return data;
+    var resp = HTTP.get(url)
+    if resp.statusCode == 400 {
+      text = resp.content;
+      var data = xml2js.parseStringSync(text, {tagNameProcessors: [xml2js.processors.stripPrefix]});
+      return data;
+    }
+    return false;
   }
 
   // Saves document to CLOUDANT
@@ -89,7 +93,7 @@ if (Meteor.isServer) {
         filing.links.forEach(function(link){
 
           var parsedData = ThirteenF.parseDocument(link);
-          if(parsedData.edgarSubmission){
+          if(parsedData && parsedData.edgarSubmission){
             data.edgarSubmission = parsedData.edgarSubmission;
           } else {
             data.data.push(parsedData.informationTable.infoTable);
