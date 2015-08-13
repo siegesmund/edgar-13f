@@ -71,10 +71,10 @@ if (Meteor.isServer) {
 
   ThirteenF.parseDocument = function(url) {
     var resp = HTTP.get(url)
-    if resp.statusCode == 400 {
-      text = resp.content;
-      var data = xml2js.parseStringSync(text, {tagNameProcessors: [xml2js.processors.stripPrefix]});
-      return data;
+    if (resp.statusCode == 200) {
+        text = resp.content;
+        var data = xml2js.parseStringSync(text, {tagNameProcessors: [xml2js.processors.stripPrefix]});
+        return data;
     }
     return false;
   }
