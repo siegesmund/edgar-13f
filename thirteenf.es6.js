@@ -93,10 +93,12 @@ if (Meteor.isServer) {
         filing.links.forEach(function(link){
 
           var parsedData = ThirteenF.parseDocument(link);
-          if(parsedData && parsedData.edgarSubmission){
-            data.edgarSubmission = parsedData.edgarSubmission;
-          } else {
-            data.data.push(parsedData.informationTable.infoTable);
+          if (parsedData) {
+            if(parsedData.edgarSubmission){
+              data.edgarSubmission = parsedData.edgarSubmission;
+            } else {
+              data.data.push(parsedData.informationTable.infoTable);
+            }
           }
         });
 
