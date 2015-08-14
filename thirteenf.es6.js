@@ -91,15 +91,19 @@ if (Meteor.isServer) {
         data = {};
         data.data = [];
         filing.links.forEach(function(link){
-
-          var parsedData = ThirteenF.parseDocument(link);
-          if (parsedData) {
-            if(parsedData.edgarSubmission){
-              data.edgarSubmission = parsedData.edgarSubmission;
-            } else {
-              data.data.push(parsedData.informationTable.infoTable);
+          try{
+            var parsedData = ThirteenF.parseDocument(link);
+            if (parsedData) {
+              if(parsedData.edgarSubmission){
+                data.edgarSubmission = parsedData.edgarSubmission;
+              } else {
+                data.data.push(parsedData.informationTable.infoTable);
+              }
             }
+          } catch (exception) {
+            console.log('[Edgar-13f Error]: error parsing data at link ', link, exception);
           }
+
         });
 
         db.save(filing._id, data, function(error, response){
