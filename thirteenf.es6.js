@@ -92,6 +92,7 @@ if (Meteor.isServer) {
         data.data = [];
         filing.links.forEach(function(link){
           try{
+            // Try to parse the document.
             var parsedData = ThirteenF.parseDocument(link);
             if (parsedData) {
               if(parsedData.edgarSubmission){
@@ -101,6 +102,7 @@ if (Meteor.isServer) {
               }
             }
           } catch (exception) {
+            // If there is a parsing error, log the error
             console.log('[Edgar-13f Error]: error parsing data at link ', link, exception);
           }
 
